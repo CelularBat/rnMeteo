@@ -1,4 +1,4 @@
-Unofficial client for Polish weather forecasting service <a href="https://old.meteo.pl/">ICM Meteo, for the old API.</a>
+Unofficial client for Polish weather forecasting service <a href="https://old.meteo.pl/">ICM Meteo, for the old API.</a><br>
 Made in React Native, Expo Router, soon will be avalaible for iOS and Android. 
 
 ## Why this client is the best?
