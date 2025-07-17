@@ -3,15 +3,16 @@ import { View, StyleSheet, Pressable } from 'react-native';
 import { Image } from 'expo-image';
 import mapa from "@/assets/images/oreografia.png";
 
+//depreciated, moved to ImagePopUp
 function MapPopUp({visible, onPress}) {
-    console.log("mapa",visible);
+
     return (
     
         <Pressable style={[styles.imageContainer, (!visible) && styles.hidden ]}
             onPress={onPress}
         >
                  <Image source={mapa} style={styles.image} contentFit='contain' />
-                 
+    
         </Pressable>
        
     );

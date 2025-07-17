@@ -12,7 +12,6 @@
       "supportsTablet": true
     },
     "android": {
-      
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
@@ -53,6 +52,14 @@
     "doctor": {
       "reactNativeDirectoryCheck": {
         "listUnknownPackages": false
+      }
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "68943c5d-1be2-47ca-8d30-ebf8076abd0d"
       }
     }
   }

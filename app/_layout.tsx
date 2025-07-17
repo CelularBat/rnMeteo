@@ -9,7 +9,8 @@ import HomeScreen from "@/screens/HomeScreen.jsx";
 import CustomHeader from "@/components/CustomHeader.jsx";
 import SearchScreen from "@/screens/SearchScreen";
 import ModelMap from "@/screens/ModelMap";
-import About from "@/screens/About";
+import AboutScreen from "@/screens/AboutScreen";
+import Legend from "@/screens/Legend";
 
 
 const Drawer = createDrawerNavigator();
@@ -33,7 +34,8 @@ export default function RootLayout() {
         <Drawer.Screen name="home" component={HomeScreen} />
         <Drawer.Screen  name="search" component={SearchScreen} />
         <Drawer.Screen  name="modelMap" component={ModelMap} />
-        <Drawer.Screen  name="about" component={About} />
+        <Drawer.Screen  name="about" component={AboutScreen} />
+        <Drawer.Screen  name="legend" component={Legend} />
        
       </Drawer.Navigator>
 

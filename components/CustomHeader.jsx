@@ -32,6 +32,11 @@ const CustomHeader = ({route}) => {
       <Text style={styles.title}>O aplikacji:</Text>
     )
     break;
+    
+    case 'legend': title=(
+      <Text style={styles.title}>Legenda:</Text>
+    )
+    break;
   }
 
   return (

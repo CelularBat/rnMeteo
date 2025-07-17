@@ -2,7 +2,7 @@
 import React from 'react';
 import { ScrollView, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { FavListContext } from '@/context/FavListContext';
-import { nanoid } from "nanoid";
+import { nanoid } from "nanoid/non-secure";
 import AskModal from './reusable/AskModal';
 
 

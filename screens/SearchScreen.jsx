@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { nanoid } from "nanoid";
+import { nanoid } from "nanoid/non-secure";
 import { View, Text, TextInput, StyleSheet, FlatList, Alert,Pressable } from 'react-native';
 import Button from "@/components/reusable/Button";
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
@@ -14,12 +14,15 @@ import AskModal from "@/components/reusable/AskModal";
 
 import { useNavigation } from '@react-navigation/native';
 
+import { Keyboard } from 'react-native';
+
 const SearchScreen = () => {
   const [SearchQuery, setSearchQuery] = useState(''); 
-  const [ResultsList,setResultsList] = React.useState([]);
 
-  const [ShowAskModal,setShowAskModal] = React.useState(false);
+  const [ResultsList,setResultsList] = React.useState([]);
   const [PressedCity,setPressedCity] = React.useState({});
+  const [ShowAskModal,setShowAskModal] = React.useState(false);
+ 
 
 
   const {G_addCity, setG_CurrentCity} = React.useContext(FavListContext);
@@ -29,7 +32,7 @@ const SearchScreen = () => {
     if (SearchQuery.trim() === '') {
       Alert.alert('Błąd', 'Proszę wpisać nazwę miejscowości.'); 
     } else {
-      
+      Keyboard.dismiss();
       const result = await searchPlace(SearchQuery);
       setResultsList(result);
     }
@@ -52,15 +55,19 @@ const SearchScreen = () => {
     <View style={styles.container}>
         {/* <Text style={styles.title}>Wpisz nazwę miejscowości</Text> */}
         <View style ={styles.searchContainer}>
+          <Button onPress={handleSearch} 
+            style={styles.searchBtn}>
+                <FontAwesome5 name="search-location" size={18} color="green" />  Szukaj
+          </Button>
+
             <TextInput
                 style={styles.input}
                 placeholder="Nazwa miejscowości"
                 value={SearchQuery}
                 onChangeText={setSearchQuery} 
+                onSubmitEditing={handleSearch} // kliknięcie "ok" jak w guzik "szukaj"
             /> 
-            <Button onPress={handleSearch} >
-                <FontAwesome5 name="search-location" size={18} color="green" />  Szukaj
-            </Button>
+            
         </View>
    
         <View style={styles.resultsContainer}>   
@@ -86,9 +93,15 @@ const SearchScreen = () => {
             )}
         </View>
 
-        <Button onPress={()=>navigation.navigate('modelMap')} >
+        <View style={styles.showMapContainer}>
+          <Button 
+          onPress={()=>navigation.navigate('modelMap')}
+           >
                 <FontAwesome5 name="map" size={18} color="green" />  Pokaż zasięg modelu
-        </Button>
+          </Button>
+
+        </View>
+        
         
 
 
@@ -114,40 +127,50 @@ const SearchScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'start',
+    justifyContent: 'flex-start' ,
     alignItems: 'center',
     padding: 20,
     backgroundColor: '#f0f0f0', // Background color for the screen
     display: "flex",
+    marginTop:1
   },
   title: {
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 20,
   },
-  input: {
-    width: '70%',
-    height: 40,
-    borderColor: 'green',
-    borderWidth: 1,
-    borderRadius: 5,
-    paddingHorizontal: 10,
-    marginBottom: 20,
-    backgroundColor: '#fff', // Background color for the input field
-  },
 
   searchContainer: {
-    flex: 1,
+    //flex: 1,
     height: 50,
     maxHeight:50,
     width: "100%",
-    flexDirection: 'row',
-    justifyContent: 'center',
-    gap: 20
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    alignItems:'center',
+    marginBottom: 10
   },
+  input: {
+    width: '90%',
+    height: 40,
+    borderColor: 'green',
+    borderWidth: 2,
+    borderRadius: 5,
+    paddingHorizontal: 10,
+    paddingBlock: 5,
+    marginTop: 5,
+    marginBottom:20,
+    backgroundColor: '#fff', // Background color for the input field
+  },
+  searchBtn:{
+    width:'auto',
+    marginBottom:20,
+  },
+
+
   resultsContainer:{
     flex:1,
-    marginBlock:10,
+    marginTop:30,
     maxHeight:"80%",
   },
   resultItem: {
@@ -168,6 +191,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#888',
   },
-});
+  showMapContainer:{
+    margin:'auto'
 
+  } 
+});  
+ 
 export default SearchScreen;

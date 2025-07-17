@@ -3,14 +3,14 @@ import React from 'react';
 import ImagePopUp from "@/components/reusable/ImagePopUp"
 import { View,StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import mapa from "@/assets/images/oreografia.png";
+import legenda from "@/assets/images/leg_256.png";
 
 
-const ModelMap = () => {
+const Legend = () => {
     const navigation = useNavigation();
     return (
         <View style={styles.container}>
-            <ImagePopUp imageSrc={mapa}  visible={true} onPress={()=>navigation.navigate('search')}/> 
+            <ImagePopUp imageSrc={legenda}  visible={true} onPress={()=>navigation.navigate('home')}/> 
         </View>
 
     );
@@ -25,4 +25,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ModelMap;
+export default Legend;

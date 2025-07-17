@@ -1,6 +1,6 @@
 import React from "react";
 import {saveToCache,getFromCache} from "@/functions/favListLocalStorageHandler.js";
-import { nanoid } from "nanoid";
+import { nanoid } from "nanoid/non-secure";
 
 const exampleList = [
     {   id: 1,
