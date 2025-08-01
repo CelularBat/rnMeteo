@@ -59,8 +59,9 @@
         "origin": false
       },
       "eas": {
-        "projectId": "68943c5d-1be2-47ca-8d30-ebf8076abd0d"
+        "projectId": "780d910f-d926-4d5d-a52b-fa0c5c75f715"
       }
-    }
+    },
+    "owner": "abcd123b"
   }
 }

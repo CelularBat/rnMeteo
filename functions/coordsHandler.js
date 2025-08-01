@@ -22,27 +22,26 @@ const coordsToXYString = async(N,E)=> {
   function getCurrentDateString() {
     try {
         let now = new Date();
-        
-        let year = now.getFullYear();
-        let month = String(now.getMonth() + 1).padStart(2, '0'); 
-        let day = String(now.getDate()).padStart(2, '0'); 
         let hour = now.getHours(); 
-
-        let dint = parseInt(`${year}${month}${day}`); 
-
-       
+ 
         let t;
         if (hour < 6) {
-            dint -= 1; 
+            now.setDate(now.getDate() - 1);
             t = '12';
         } else if (hour < 12) {
-            dint -= 1;
+            now.setDate(now.getDate() - 1);
             t = '18';
         } else if (hour < 18) {
             t = '00';
         } else {
             t = '06';
         }
+
+        let year = now.getFullYear();
+        let month = String(now.getMonth() + 1).padStart(2, '0'); 
+        let day = String(now.getDate()).padStart(2, '0'); 
+
+        let dint = parseInt(`${year}${month}${day}`); 
 
         return `${dint}${t}`;
         
