@@ -1,4 +1,4 @@
-const LIMIT = 15;
+const LIMIT = 20;
 
 async function searchPlace(placeString) {
     try {
@@ -18,7 +18,7 @@ async function searchPlace(placeString) {
             for (let idx in data) {
                 // filter out doubled results
                 if ((! resList.some(item=>item.name === data[idx].display_name))
-                    && data[idx].type == "administrative"    
+                    && (data[idx].type == "administrative" || data[idx].type == "village")    
                 ){
                     const {location,region} = parseFullName(data[idx].display_name);
 

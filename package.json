@@ -1,7 +1,7 @@
 {
   "name": "rnmeteo",
   "main": "expo-router/entry",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "scripts": {
     "start": "expo start",
     "reset-project": "node ./scripts/reset-project.js",
@@ -20,7 +20,7 @@
   "dependencies": {
     "@expo/config-plugins": "~9.0.0",
     "@expo/prebuild-config": "~8.0.0",
-    "@expo/vector-icons": "^14.0.2",
+    "@expo/vector-icons": "^14.0.3",
     "@openspacelabs/react-native-zoomable-view": "^2.4.2",
     "@react-native-async-storage/async-storage": "1.23.1",
     "@react-navigation/bottom-tabs": "^7.2.0",
