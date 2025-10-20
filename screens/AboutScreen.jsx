@@ -7,12 +7,21 @@ const AboutScreen = () => {
     Linking.openURL('https://github.com/CelularBat/rnMeteo');
   };
 
+  const openLinkICM =() =>{
+    Linking.openURL('https://old.meteo.pl/');
+  }
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.heading}>O aplikacji</Text>
       <Text style={styles.paragraph}>
-        Nieoficjalny klient dla starszej wersji modelu pogodowego IMC Meteo. Obsługuje meteogramy numerycznego modelu pogody UM. 
-        {"\n"}Jego zaletą jest możliwość wyszukania dowolnej miejscowości w obrębie modelu, który obejmuje znaczną część Europy północnej i centralnej.
+        Nieoficjalny klient dla starszej wersji modelu pogodowego 
+        <Text style={styles.link} onPress={openLinkICM}>
+         {" ICM Meteo"}
+        </Text> 
+        . Obsługuje meteogramy numerycznego modelu pogody UM 60h.
+        {"\n"} Projekt hobbystyczny.
+        {"\n"}{"\n"}Jego zaletą jest możliwość wyszukania dowolnej miejscowości w obrębie modelu, który obejmuje znaczną część Europy północnej i centralnej.
         {"\n"}Odnajdziesz równiez prognozę dla najmniejszej wsi.
       </Text>
 
@@ -22,6 +31,17 @@ const AboutScreen = () => {
       <Text style={styles.heading}>Strona aplikacji</Text>
       <Text style={styles.link} onPress={openLink}>
         <FontAwesome name="github" size={16} /> https://github.com/CelularBat/rnMeteo
+      </Text>
+
+      <Text style={[styles.paragraph, styles.italic]}>
+      {"\n"}{"\n"}{"\n"}{"\n"}
+        Prognozy są udostępnione nieodpłatnie przez serwis 
+        <Text style={styles.link} onPress={openLinkICM}>
+        { " meteo.pl " }
+        </Text>
+        prowadzony przez ICM, Uniwersytet Warszawski.{"\n"}{"\n"}
+        Wyniki uzyskano przy użyciu oprogramowania Met Office.{"\n"}
+        Material produced using Met Office Software
       </Text>
     </ScrollView>
   );
@@ -49,4 +69,7 @@ const styles = StyleSheet.create({
     color: '#007AFF',
     marginTop: 5,
   },
+  italic: {
+    fontStyle: 'italic'
+  }
 });
