@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Linking, ScrollView } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
+import Constants from 'expo-constants';
 
 const AboutScreen = () => {
   const openLink = () => {
@@ -11,20 +12,23 @@ const AboutScreen = () => {
     Linking.openURL('https://old.meteo.pl/');
   }
 
+  const version = Constants.expoConfig?.version;
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.heading}>O aplikacji</Text>
       <Text style={styles.paragraph}>
-        Nieoficjalny klient dla starszej wersji modelu pogodowego 
+        Nieoficjalny klient dla starszej wersji modelu pogodowego,
         <Text style={styles.link} onPress={openLinkICM}>
          {" ICM Meteo"}
         </Text> 
         . Obsługuje meteogramy numerycznego modelu pogody UM 60h.
-        {"\n"} Projekt hobbystyczny.
+        {"\n"}Projekt hobbystyczny.
         {"\n"}{"\n"}Jego zaletą jest możliwość wyszukania dowolnej miejscowości w obrębie modelu, który obejmuje znaczną część Europy północnej i centralnej.
         {"\n"}Odnajdziesz równiez prognozę dla najmniejszej wsi.
       </Text>
 
+      
       <Text style={styles.heading}>Autor</Text>
       <Text style={styles.paragraph}>CelularBat (2023-2025)</Text>
 
@@ -32,6 +36,7 @@ const AboutScreen = () => {
       <Text style={styles.link} onPress={openLink}>
         <FontAwesome name="github" size={16} /> https://github.com/CelularBat/rnMeteo
       </Text>
+      <Text>{"\n"}Wersja aplikacji: {version}</Text>
 
       <Text style={[styles.paragraph, styles.italic]}>
       {"\n"}{"\n"}{"\n"}{"\n"}

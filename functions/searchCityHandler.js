@@ -8,7 +8,7 @@ async function searchPlace(placeString) {
                 'Content-Type': 'application/json'
             }
         };
-        let response = await fetch(`https://geoapi.meteo.digital/geo/search.php?q=${placeString}&format=json&various_place=city&limit=${LIMIT}`, fetchOptions);
+        let response = await fetch(`https://geoapi.meteo.pl/geo/search.php?q=${placeString}&format=json&various_place=city&limit=${LIMIT}`, fetchOptions);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         } 
