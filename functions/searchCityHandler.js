@@ -1,4 +1,26 @@
+
+/*
+    Function for finding cities/places by name.
+
+    In version 3.0.0 meteo.pl internal API was replaced with native nominative API
+    
+*/
+
+/* Corners of UM on map:
+1o58'27''E 65o18'10''N ,
+36o58'6''E 65o15'59''N ,
+29o48'54''E 44o43'30'N ,
+8o59'42''E 44o44'48''N
+
+After conversion:
+min longitude =  1.9741667
+max longitude = 36.9683333
+min latitude  = 44.7250000
+max latitude  = 65.3027778
+*/
+
 const LIMIT = 20;
+const VIEWBOX="1.9741667,65.3027778,36.9683333,44.7250000";
 
 async function searchPlace(placeString) {
     try {
@@ -8,82 +30,74 @@ async function searchPlace(placeString) {
                 'Content-Type': 'application/json'
             }
         };
-        let response = await fetch(`https://geoapi.meteo.pl/geo/search.php?q=${placeString}&format=json&various_place=city&limit=${LIMIT}`, fetchOptions);
+        const urlRoot = "https://nominatim.openstreetmap.org/search?";
+        const urlParams=`q=${placeString}&format=geojson&addressdetails=1&limit=${LIMIT}`+
+            `&accept-language=pl&viewbox${VIEWBOX}=&bounded=1`;
+
+        let response = await fetch(urlRoot+urlParams, fetchOptions);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         } 
         else {
             let data = await response.json();
-            let resList = [];
-            for (let idx in data) {
-                // filter out doubled results
-                if ((! resList.some(item=>item.name === data[idx].display_name))
-                    && (data[idx].type == "administrative" || data[idx].type == "village")    
-                ){
-                    const {location,region} = parseFullName(data[idx].display_name);
+            data = data["features"];
+            if (!data) {
+                throw new Error(`JSON has no key "features"`);
+            } 
 
-                    let j = {
-                        name: data[idx].display_name,
-                        location: location,
-                        region: region,
-                        lat: data[idx].lat,
-                        lon: data[idx].lon,
+            let resultList = []; // results being kept here.
+
+           
+            for (let idx in data) {
+                // check for proper type of record
+                if ((data[idx].properties.type == "administrative" || data[idx].properties.type == "village")
+                // don't add if it's doubling another record
+                    && (! resultList.some(item=> item.display_name === data[idx].properties.display_name))           
+                ){
                     
+                    let newPlace = {
+                        display_name: data[idx].properties.display_name,
+                        name: data[idx].properties.name,
+                        city:data[idx].properties.address.city,	
+                        municipality:data[idx].properties.address.municipality,	
+                        county: data[idx].properties.address.county,
+                        state: data[idx].properties.address.state,
+                        country: data[idx].properties.address.country,
+                        lon: data[idx].geometry.coordinates[0],
+                        lat: data[idx].geometry.coordinates[1],
                     };
-                    resList.push(j);
+
+                    newPlace.location = formatLocationString(newPlace);
+                    newPlace.region = (newPlace.country === "Polska") ?
+                        newPlace.state : (`${newPlace.state}, ${newPlace.country}`);
+
+                    resultList.push(newPlace);
                 }
                 
             }
-            console.log(resList);
-            return resList;
+            return resultList;
 
         }
     } catch (error) {
         console.error('Fetch error:', error);
-        throw error;
+        return [];
+        //throw error;
     }
 }
 
-
-
-function parseFullName(name){
-    let region, location;
-    const segments = name.split(",");
-// if segments contains postal code remove it
-    if (/^[\d- ]+$/.test(segments[segments.length-2])){
-        segments.splice(segments.length-2, 1)
+// jeśli jest gmina to gmina, jeśli tylko powiat to powiat.
+function formatLocationString(placeData){
+    let res = placeData.name;
+    if (placeData.city){
+        res = res + ", "+placeData.city;
+    } 
+    else if (placeData.municipality){
+        res = res + ", "+placeData.municipality;
+    } 
+    else if(placeData.county){
+        res = res + ", "+placeData.county;
     }
-    const len = segments.length;
-
-// Big cities have only 3 segments
-    if ( len < 4){
-        location = segments[0];
-//Kraków, województwo małopolskie, Polska
-        if (segments[len-1].includes("Polska")){
-            region = segments[len-2];
-        }
-//Drezno, Saksonia, Niemcy
-        else{
-            region = segments[len-2] + "," + segments[len-1]; 
-        }
-    }
-    else{
-        location = segments[0] +","+ segments[1];
-// Drezno, gmina Ciepielów, powiat lipski, województwo mazowieckie, Polska
-        if (segments[len-1].includes("Polska")){
-            region = segments[len-2];
-        }
-//Mickiewicze, Маўчадскі сельскі Савет, rejon baranowicki, Obwód brzeski, Białoruś
-        else{
-            region = segments[len-2] + "," + segments[len-1]; 
-        }
-
-    }
-
-    return ({
-        location: location,
-        region: region
-    })
+    return res;
 }
 
 module.exports ={searchPlace}

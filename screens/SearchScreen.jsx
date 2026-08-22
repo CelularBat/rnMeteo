@@ -78,11 +78,11 @@ const SearchScreen = () => {
                 renderItem={({ item }) => (
                     <Pressable style={[
                         styles.resultItem, 
-                        (PressedCity.name === item.name) && styles.resultItem_marked 
+                        (PressedCity.name === item.display_name) && styles.resultItem_marked 
                     ]} 
                     onPress={()=>handleCityPress(item)}>
                         <Text style={styles.resultText}>
-                            {item.name}
+                            {item.display_name}
                         </Text>
                     </Pressable>
                 )}

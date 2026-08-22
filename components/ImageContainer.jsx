@@ -5,6 +5,7 @@ import { ReactNativeZoomableView } from '@openspacelabs/react-native-zoomable-vi
 
 function ImageContainer({ url }) {
 
+
   return (
     <View style={styles.container}>
       <ReactNativeZoomableView
@@ -17,6 +18,7 @@ function ImageContainer({ url }) {
         pinchToZoomInSensitivity={5}
         movementSensibility={3}
         doubleTapZoomToCenter={true}
+
         
        // panEnabled={false}
       >
@@ -35,7 +37,7 @@ const styles = StyleSheet.create({
     flex:1,
     width: '100%',
     height: '100%',
-     resizeMode: 'contain'
+    resizeMode: 'contain',
   },
 }); 
  

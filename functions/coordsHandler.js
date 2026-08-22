@@ -13,8 +13,8 @@ const coordsToXYString = async(N,E)=> {
       return res;
 
     } catch (error) {
-        console.error('Fetch error:', error);
-        throw error;
+        console.error('Problem with coords translation server:', error);
+        //throw error;
     }
   }
 
@@ -23,18 +23,18 @@ const coordsToXYString = async(N,E)=> {
     try {
         let now = new Date();
         let hour = now.getHours(); 
- 
         let t;
+
+
         if (hour < 6) {
             now.setDate(now.getDate() - 1);
-            t = '12';
-        } else if (hour < 12) {
-            now.setDate(now.getDate() - 1);
             t = '18';
-        } else if (hour < 18) {
+        } else if (hour < 12) {
             t = '00';
-        } else {
+        } else if (hour < 18) {
             t = '06';
+        } else {
+            t = '12';
         }
 
         let year = now.getFullYear();
