@@ -12,7 +12,11 @@ const AboutScreen = () => {
     Linking.openURL('https://old.meteo.pl/');
   }
 
-  const version = Constants.expoConfig?.version;
+  const openLinkOSM =() =>{
+    Linking.openURL('https://openstreetmap.org/copyright');
+  }
+
+  const version = Constants.expoConfig?.version || Constants.manifest?.version;
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -30,23 +34,32 @@ const AboutScreen = () => {
 
       
       <Text style={styles.heading}>Autor</Text>
-      <Text style={styles.paragraph}>CelularBat (2023-2025)</Text>
+      <Text style={styles.paragraph}>CelularBat (2023-2026)</Text>
 
       <Text style={styles.heading}>Strona aplikacji</Text>
       <Text style={styles.link} onPress={openLink}>
         <FontAwesome name="github" size={16} /> https://github.com/CelularBat/rnMeteo
       </Text>
       <Text>{"\n"}Wersja aplikacji: {version}</Text>
+      <Text>{"\n"}{"\n"}{"\n"}</Text>
 
+      <Text style={styles.heading}>Atrybucja</Text>
       <Text style={[styles.paragraph, styles.italic]}>
-      {"\n"}{"\n"}{"\n"}{"\n"}
-        Prognozy są udostępnione nieodpłatnie przez serwis 
-        <Text style={styles.link} onPress={openLinkICM}>
-        { " meteo.pl " }
-        </Text>
-        prowadzony przez ICM, Uniwersytet Warszawski.{"\n"}{"\n"}
-        Wyniki uzyskano przy użyciu oprogramowania Met Office.{"\n"}
-        Material produced using Met Office Software
+      • Prognozy są udostępnione nieodpłatnie przez serwis 
+        <Text style={styles.link} onPress={openLinkICM}>{ " meteo.pl " }</Text>
+        prowadzony przez ICM, Uniwersytet Warszawski.
+        {"\n"}{"\n"}
+        • Wyniki uzyskano przy użyciu oprogramowania Met Office.
+        {"\n"}
+        • Material produced using Met Office Software.
+        {"\n"}{"\n"}
+        • Aplikacja używa usługi Nominatim,
+        <Text style={styles.link} onPress={openLinkICM}>{ " OpenStreetMap" }</Text> 
+        . 
+        {"\n"}
+        • Application uses Nominatim service, by
+        <Text style={styles.link} onPress={openLinkOSM}>{ " OpenStreetMap" }</Text> 
+        . 
       </Text>
     </ScrollView>
   );

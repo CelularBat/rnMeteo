@@ -141,17 +141,19 @@ const styles = StyleSheet.create({
   },
 
   searchContainer: {
-    //flex: 1,
+    display: 'flex',
     height: 50,
     maxHeight:50,
     width: "100%",
     flexDirection: 'column',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     alignItems:'center',
-    marginBottom: 10
+    marginBottom: 10,
+    marginTop:10
   },
   input: {
     width: '90%',
+    maxWidth:400,
     height: 40,
     borderColor: 'green',
     borderWidth: 2,
@@ -163,8 +165,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff', // Background color for the input field
   },
   searchBtn:{
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems:'center',
     width:'auto',
     marginBottom:20,
+    padding: 5
   },
 
 

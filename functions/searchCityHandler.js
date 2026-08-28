@@ -2,7 +2,9 @@
 /*
     Function for finding cities/places by name.
 
-    In version 3.0.0 meteo.pl internal API was replaced with native nominative API
+    In version 3.0.0 meteo.pl internal API was replaced with native Nominatim API
+    Nominatim usage policy:
+    https://operations.osmfoundation.org/policies/nominatim/
     
 */
 
@@ -27,12 +29,14 @@ async function searchPlace(placeString) {
         const fetchOptions = {
             headers: {
                 'Accept-Language': 'pl-PL, pl',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Referer': 'meteo-icm.netlify.app',
+                'User-Agent': 'rnMeteo'
             }
         };
         const urlRoot = "https://nominatim.openstreetmap.org/search?";
         const urlParams=`q=${placeString}&format=geojson&addressdetails=1&limit=${LIMIT}`+
-            `&accept-language=pl&viewbox${VIEWBOX}=&bounded=1`;
+            `&accept-language=pl&viewbox=${VIEWBOX}&bounded=1`;
 
         let response = await fetch(urlRoot+urlParams, fetchOptions);
         if (!response.ok) {
