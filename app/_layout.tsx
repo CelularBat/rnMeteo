@@ -1,4 +1,4 @@
-// App.js or _layout.js
+
 import React from 'react';
 import {FavListContextProvider} from "@/context/FavListContext"
 

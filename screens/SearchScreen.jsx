@@ -55,6 +55,7 @@ const SearchScreen = () => {
     <View style={styles.container}>
         {/* <Text style={styles.title}>Wpisz nazwę miejscowości</Text> */}
         <View style ={styles.searchContainer}>
+
           <Button onPress={handleSearch} 
             style={styles.searchBtn}>
                 <FontAwesome5 name="search-location" size={18} color="green" />  Szukaj
@@ -65,7 +66,7 @@ const SearchScreen = () => {
                 placeholder="Nazwa miejscowości"
                 value={SearchQuery}
                 onChangeText={setSearchQuery} 
-                onSubmitEditing={handleSearch} // kliknięcie "ok" jak w guzik "szukaj"
+                onSubmitEditing={handleSearch} // handling "enter press" on web
             /> 
             
         </View>
@@ -78,7 +79,7 @@ const SearchScreen = () => {
                 renderItem={({ item }) => (
                     <Pressable style={[
                         styles.resultItem, 
-                        (PressedCity.name === item.display_name) && styles.resultItem_marked 
+                        (PressedCity.display_name === item.display_name) && styles.resultItem_marked 
                     ]} 
                     onPress={()=>handleCityPress(item)}>
                         <Text style={styles.resultText}>
@@ -116,7 +117,7 @@ const SearchScreen = () => {
             navigation.navigate('home')
         }} >
             Czy dodać {"\n"}
-            <Text style={{ fontWeight: 'bold' }}> {PressedCity.name} {"\n"} </Text>
+            <Text style={{ fontWeight: 'bold' }}> {PressedCity.display_name} {"\n"} </Text>
             do listy ulubionych?
         </AskModal>
         
@@ -166,10 +167,12 @@ const styles = StyleSheet.create({
   },
   searchBtn:{
     display: 'flex',
-    flexDirection: 'column',
+    flexDirection: 'row',
     justifyContent: 'center',
     alignItems:'center',
+    textAlign:'center',
     width:'auto',
+    maxWidth:'30%',
     marginBottom:20,
     padding: 5
   },

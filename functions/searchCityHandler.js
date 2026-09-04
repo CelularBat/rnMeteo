@@ -54,7 +54,7 @@ async function searchPlace(placeString) {
            
             for (let idx in data) {
                 // check for proper type of record
-                if ((data[idx].properties.type == "administrative" || data[idx].properties.type == "village")
+                if ((data[idx].properties.type === "administrative" || data[idx].properties.type === "village")
                 // don't add if it's doubling another record
                     && (! resultList.some(item=> item.display_name === data[idx].properties.display_name))           
                 ){

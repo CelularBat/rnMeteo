@@ -8,6 +8,7 @@ const CustomHeader = ({route}) => {
   const navigation = useNavigation();
   const {G_CurrentCity} = React.useContext(FavListContext);
 
+  let title;
   switch(route.name){
     case 'home': title = (
       <>
@@ -15,7 +16,7 @@ const CustomHeader = ({route}) => {
         <Text style={styles.region}>{G_CurrentCity.region}</Text>
       </>
     );
-    refreshBtnVisible = true;
+    
     break;
 
     case 'search': title=(
