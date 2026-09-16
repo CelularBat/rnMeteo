@@ -3,6 +3,7 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { FavListContext } from '@/context/FavListContext';
+import c from '@/context/constStore';
 
 const CustomHeader = ({route}) => {
   const navigation = useNavigation();
@@ -61,7 +62,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 16,
-    height: 70,
+    height: c.headerBarHeight,
     backgroundColor: '#f4511e',
   },
   menuIcon: {

@@ -2,6 +2,7 @@
 import React from 'react';
 import {FavListContextProvider} from "@/context/FavListContext"
 
+import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import CustomDrawer from '@/components/CustomDrawer';
@@ -15,11 +16,26 @@ import Legend from "@/screens/Legend";
 
 const Drawer = createDrawerNavigator();
 
+const linking = {
+  prefixes: ['/', 'rnmeteo://'],
+  config: {
+    screens: {
+      home: 'home',
+      search: 'search',
+      modelMap: 'modelMap',
+      about: 'about',
+      legend: 'legend',
+    },
+  },
+};
+
+
 export default function RootLayout() {
 
 
   return (
-   <FavListContextProvider>
+  <NavigationContainer linking={linking}>
+    <FavListContextProvider>
 
       <Drawer.Navigator
         drawerContent={(props) => <CustomDrawer {...props} />}
@@ -39,6 +55,8 @@ export default function RootLayout() {
        
       </Drawer.Navigator>
 
-  </FavListContextProvider>
+    </FavListContextProvider>
+  </NavigationContainer>
+
   );
 }

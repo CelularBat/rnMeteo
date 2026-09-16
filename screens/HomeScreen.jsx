@@ -1,25 +1,30 @@
 import React from 'react';
 import { View, Text, StyleSheet,TouchableOpacity,Platform, Share } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
+import { useWindowDimensions } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
 import ImageContainer from "@/components/ImageContainer.jsx"
+import LegendContainer from '@/components/LegendContainer';
 import { getCurrentDateString , createImgUrl} from "@/functions/coordsHandler";
 import { FavListContext } from '@/context/FavListContext';
+import c from '@/context/constStore';
 
+const METEOGRAM_ASPECT_RATIO = 540/780;
 
 const HomeScreen = () => {
   const [RefreshFlag,setRefreshFlag] = React.useState(0);
+  const [ShowLegend, setShowLegend] = React.useState(false);
 
   const {G_CurrentCity} = React.useContext(FavListContext);
+  const { width, height } = useWindowDimensions();
 
   let currentDate = getCurrentDateString();
   const navigation = useNavigation();
   
 
   const currentURL = React.useMemo(() => { 
-    if(G_CurrentCity){
+    if(G_CurrentCity && G_CurrentCity.XYstr){
       return (createImgUrl(G_CurrentCity.XYstr,currentDate));
     }
     else {
@@ -28,9 +33,24 @@ const HomeScreen = () => {
     
   },[currentDate,G_CurrentCity,RefreshFlag]);
 
+  // If aspect ratio of avalaible space is wider than meteogram ratio, than cut off banner, because it makes graph smaller.
+  const doCrop = React.useMemo(() => { 
+    return (width / (height - c.headerBarHeight)) > METEOGRAM_ASPECT_RATIO;
+  },[ width, height]);
+
   const handleRefresh = () => {
     setRefreshFlag(prev=>prev+1)
   };
+
+  const handleLegendClick =()=>{
+    if (width < 730) {
+      navigation.navigate('legend');
+    }
+    else{
+      setShowLegend((prev)=>!prev);
+    }
+    
+  }
 
   // Android only
   const handleShare = async() => {
@@ -39,17 +59,22 @@ const HomeScreen = () => {
     });
   };
 
+
+
   return (
     
     <View style={styles.container}>
-      // Legend button
+
+      {/* // Legend button */}
+
       <TouchableOpacity style={[styles.btn, styles.legendBtn]}
-      onPress={()=>navigation.navigate('legend')}
-        >
-            <FontAwesome5 name="info-circle" size={18} color="blue" />  
+      onPress={(handleLegendClick)}
+      >
+        <FontAwesome5 name="info-circle" size={18} color="blue" />  
       </TouchableOpacity>
 
-      // Share button - Android only
+      {/* // Share button - Android only */}
+
       {Platform.OS !== "web" &&
 
         <TouchableOpacity style={[styles.btn, styles.shareBtn]} 
@@ -58,23 +83,28 @@ const HomeScreen = () => {
         </TouchableOpacity>
       }
 
-      // Refresh button
+      {/* // Refresh button */}
+
       <TouchableOpacity style={[styles.btn, styles.refreshBtn]}
       onPress={handleRefresh}>
         <FontAwesome5 name="sync-alt" size={12} color="white" />
       </TouchableOpacity>
-
-      <ImageContainer url={currentURL}/>
+    
+      { ShowLegend &&
+        <LegendContainer onPress={()=>setShowLegend(false)}/>
+      }
+      <ImageContainer url={currentURL} doCropBanner={doCrop}/>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    // background: "linear-gradient(135deg, #87CEEB, #FFFF99)"
+    flexDirection:'row',
+    width:'100%',
+    height:'100%'
   },
   btn: {
     zIndex: 99999999,
