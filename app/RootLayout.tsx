@@ -6,18 +6,20 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import CustomDrawer from '@/components/CustomDrawer';
-import HomeScreen from "@/screens/HomeScreen.jsx";
 import CustomHeader from "@/components/CustomHeader.jsx";
 import SearchScreen from "@/screens/SearchScreen";
 import ModelMap from "@/screens/ModelMap";
 import AboutScreen from "@/screens/AboutScreen";
 import Legend from "@/screens/Legend";
+import TestSVG from "@/screens/TestSVG"
+
+import HomeRouter from '@/screens/HomeRouter';
 
 
 const Drawer = createDrawerNavigator();
 
 const linking = {
-  prefixes: ['/', 'rnmeteo://'],
+  prefixes: ['/', 'rnmeteo://','https://meteo-icm.netlify.app'],
   config: {
     screens: {
       home: 'home',
@@ -25,6 +27,7 @@ const linking = {
       modelMap: 'modelMap',
       about: 'about',
       legend: 'legend',
+      test:'test'
     },
   },
 };
@@ -47,11 +50,12 @@ export default function RootLayout() {
           }  
         }}
       >
-        <Drawer.Screen name="home" component={HomeScreen} />
+        <Drawer.Screen name="home" component={HomeRouter} />
         <Drawer.Screen  name="search" component={SearchScreen} />
         <Drawer.Screen  name="modelMap" component={ModelMap} />
         <Drawer.Screen  name="about" component={AboutScreen} />
-        <Drawer.Screen  name="legend" component={Legend} />
+       <Drawer.Screen  name="legend" component={Legend} />
+         <Drawer.Screen  name="test" component={TestSVG} />
        
       </Drawer.Navigator>
 

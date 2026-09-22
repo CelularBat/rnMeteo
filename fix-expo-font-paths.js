@@ -57,7 +57,7 @@ function getEntryFiles() {
   const files = fs.readdirSync(ENTRY_DIR)
 
   return files
-    .filter((f) => f.startsWith("entry-") && f.endsWith(".js"))
+    .filter((f) => f.startsWith("main-") && f.endsWith(".js"))
     .map((f) => path.join(ENTRY_DIR, f))
 }
 

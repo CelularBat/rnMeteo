@@ -10,18 +10,22 @@ import { getCurrentDateString , createImgUrl} from "@/functions/coordsHandler";
 import { FavListContext } from '@/context/FavListContext';
 import c from '@/context/constStore';
 
+
 const METEOGRAM_ASPECT_RATIO = 540/780;
 
 const HomeScreen = () => {
   const [RefreshFlag,setRefreshFlag] = React.useState(0);
   const [ShowLegend, setShowLegend] = React.useState(false);
 
-  const {G_CurrentCity} = React.useContext(FavListContext);
-  const { width, height } = useWindowDimensions();
 
+  const {G_CurrentCity} = React.useContext(FavListContext);
+
+  const { width, height } = useWindowDimensions();
   let currentDate = getCurrentDateString();
+
   const navigation = useNavigation();
   
+ 
 
   const currentURL = React.useMemo(() => { 
     if(G_CurrentCity && G_CurrentCity.XYstr){
@@ -48,8 +52,7 @@ const HomeScreen = () => {
     }
     else{
       setShowLegend((prev)=>!prev);
-    }
-    
+    }  
   }
 
   // Android only

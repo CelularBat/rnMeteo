@@ -4,14 +4,15 @@
     "strict": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "./*"
-      ]
-    }
+      "@/*": ["./*"]
+    },
+    "allowJs": true,
+    "checkJs": false
   },
   "include": [
     "**/*.ts",
     "**/*.tsx",
-    "app/index.jsx"
+    "**/*.js",
+    "**/*.jsx"
   ]
 }

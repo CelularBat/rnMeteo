@@ -5,10 +5,11 @@ import { useNavigation } from '@react-navigation/native';
 
 
 
+
 const Legend = () => {
     const navigation = useNavigation();
     return (
-        <LegendContainer onPress={()=>navigation.navigate('home')} />
+         <LegendContainer onPress={()=>navigation.navigate('home')} />
     );
 };
 

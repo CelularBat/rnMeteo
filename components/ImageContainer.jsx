@@ -91,7 +91,7 @@ React.useEffect(() => {
         bindToBorders={true}
         pinchToZoomInSensitivity={5}
         movementSensibility={3}
-        doubleTapZoomToCenter={true}
+        doubleTapZoomToCenter={false}
         onLongPress={handleLongPress}
 
         
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
     width:'100%',
      height:'100%',
      overflow:'visible',
-     transformOrigin:'bottom',
+
    
   },
   image: {

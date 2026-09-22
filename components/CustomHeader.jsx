@@ -4,12 +4,16 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { FavListContext } from '@/context/FavListContext';
 import c from '@/context/constStore';
+import MetallicSwitch from './reusable/MetallicSwitch';
+import { useUIStore } from '@/context/useStoreUI';
 
 const CustomHeader = ({route}) => {
   const navigation = useNavigation();
   const {G_CurrentCity} = React.useContext(FavListContext);
+  const {G_Is_Model_120,G_Toogle_Model_120} = useUIStore();
 
   let title;
+  let showModelSwitch = false;
   switch(route.name){
     case 'home': title = (
       <>
@@ -17,7 +21,7 @@ const CustomHeader = ({route}) => {
         <Text style={styles.region}>{G_CurrentCity.region}</Text>
       </>
     );
-    
+    showModelSwitch = true;
     break;
 
     case 'search': title=(
@@ -51,6 +55,10 @@ const CustomHeader = ({route}) => {
          {title}
       </View>
 
+      {showModelSwitch &&
+      <View>
+        <MetallicSwitch isActive={G_Is_Model_120} onToogle={G_Toogle_Model_120}/>
+      </View>}
       
     </View>
   );
