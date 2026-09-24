@@ -53,6 +53,8 @@ export const useStoreAPI120 = create(
 
         // Cache miss or expired cache -> fetch new data.
         const date = new Date();
+
+        // We need to get json with currentdate at 00:00 CET or 22:00 (previous day) UTC, divided by 1000
         date.setUTCHours(0, 0, 0, 0);
         date.setUTCHours(date.getHours()-2);
         

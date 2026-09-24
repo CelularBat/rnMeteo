@@ -7,7 +7,7 @@ import Svg, { Rect, Line, Circle,  Polygon,Polyline, Text , G } from "react-nati
 
   const sunStyle = {
     fill: "blue",
-    fontSize: 12,
+    fontSize: 11,
     fontFamily: "Arial,monospace",
     letterSpacing: 0,
     fontWeight: 600
@@ -209,12 +209,12 @@ export default function RenderLabelsSVG({json, StartPos, DayData,
         /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
         
         <G>
-            <Text {...sunStyle} x={2} y={ 14}
+            <Text {...sunStyle} x={2} y={ 12}
                 textAnchor="start">
                 {`wschód słońca ${sunrise} CEST`}
             </Text>
 
-            <Text {...sunStyle} x={5} y={29}
+            <Text {...sunStyle} x={5} y={27}
                 textAnchor="start">
                 {`zachód słońca ${sunset} CEST`}
             </Text>

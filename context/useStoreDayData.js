@@ -34,32 +34,18 @@ export const useStoreDayData = create(
         if (entry) {
           const cachedData = await dayDataCache.get(entry.cacheKey);
 
-          if (cachedData !== null) {
+          if (cachedData) {
             if (cachedData.date === today) {
-              console.debug(
-                'Retrieved dayData from JSONcache:',
-                locationIdxKey
-              );
-
+              console.debug('Retrieved dayData from JSONcache:',locationIdxKey );
               return cachedData;
             }
 
-            console.debug(
-              'Found dayData in cache, but date is outdated:',
-              cachedData.date,
-              locationIdxKey
-            );
+            console.debug('Found dayData in cache, but date is outdated:',cachedData.date,locationIdxKey);
           } else {
-            console.warn(
-              'JSONcache found in index, but cannot be found:',
-              locationIdxKey
-            );
+            console.warn('JSONcache found in index, but cannot be found:',locationIdxKey);
           }
         } else {
-          console.debug(
-            'No dayData cache found for:',
-            locationIdxKey
-          );
+          console.debug('No dayData cache found for:',locationIdxKey);
         }
 
          // Cache miss or expired cache -> fetch new data.
@@ -68,7 +54,6 @@ export const useStoreDayData = create(
         if (!dayData || !dayData.date) {
           return null;
         }
-
         const cacheKey = `dayData:${locationIdxKey}:${dayData.date}`;
 
        // Store the full JSON outside Zustand.
