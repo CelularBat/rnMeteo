@@ -85,6 +85,23 @@ function normalizeMinMax_temp(min,max,defaultStep=5){
     return [n_min,n_max, linesNumber, step];
 }
 
+// Function for rain/fog - always 4 lines, adjsting visible range
+function normalizeMinMax_To4Lines(min,max){
+    
+    let step;
+    const range = max - min;
+    if (range<5){ step = 1} // 1 * 5
+    else if (range<15){ step = 3} // 3 * 5
+    else if(range<25){ step = 5} // 5 * 5
+    else if(range<50){ step = 10} // 10 * 5
+    else if(range<75){ step = 15} // 15 * 5
+    else { step = 20}
+
+    const n_max = min + step*5;
+
+    return [min,n_max, 4, step];
+}
+
 
 
 
@@ -152,12 +169,13 @@ export default function GraphsSVG({json,StartPos: StartPos, DayData,
     /* rain frame =========================================================== */
     
     // humidity
-    const [minHum,maxHum] = findMinMax(json,["realhum_aver"]);
+    var [minHum,maxHum] = findMinMax(json,["realhum_aver"]);
+    var [minHum,maxHum, linesNumberHum, stepsHum] = normalizeMinMax_To4Lines(minHum,maxHum);
     calculatePoints(DPoint,["realhum_aver"],minHum,maxHum,c_Frames[1].y,c_Frames[1].y+c_Frames[1].h);
 
     //max/min raining/snowing
     var [minRain,maxRain] = findMinMax(json,["pcpttl_max","pcpttl_type_max"]);
-    var [minRain,maxRain, linesNumberRain, stepsRain] = normalizeMinMax_temp(minRain,maxRain,5);
+    var [minRain,maxRain, linesNumberRain, stepsRain] = normalizeMinMax_To4Lines(0,maxRain);
 
     minRain = 0; // ALWAYS 0
 
@@ -222,12 +240,13 @@ export default function GraphsSVG({json,StartPos: StartPos, DayData,
 
         <RenderLabelsSVG {...{json, StartPos, DayData,
         c_FrameX, c_FrameW, c_Frames, c_ColumnWidth, c_HourColumnWidth, c_CEST_y,c_UTC_y,
+
         minTemp, maxTemp, linesNumberTemp, stepsTemp,
+        minRain,maxRain, linesNumberRain, stepsRain,
+        minHum,maxHum, linesNumberHum, stepsHum,
         minSlPres,maxSlPres, linesNumberSlPres, stepsSlPres,
         minWind,maxWind, linesNumberWind, stepsWind,
-        minRain,maxRain, linesNumberRain, stepsRain,
-
-        minHum,maxHum,
+        
         c_Left_axis_scale_x_end, c_Right_axis_scale_x_start
         }}/>
 

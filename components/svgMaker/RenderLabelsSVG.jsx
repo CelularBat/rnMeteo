@@ -39,12 +39,13 @@ const daysStyle = {
 
 export default function RenderLabelsSVG({json, StartPos, DayData,
         c_FrameX, c_FrameW, c_Frames, c_ColumnWidth, c_HourColumnWidth, c_CEST_y,c_UTC_y,
+        
         minTemp, maxTemp, linesNumberTemp, stepsTemp,
+        minRain,maxRain, linesNumberRain, stepsRain,
+        minHum,maxHum, linesNumberHum, stepsHum,
         minSlPres,maxSlPres, linesNumberSlPres, stepsSlPres,
         minWind,maxWind, linesNumberWind, stepsWind,
-        minRain,maxRain, linesNumberRain, stepsRain,
-
-        minHum,maxHum,
+        
         c_Left_axis_scale_x_end, c_Right_axis_scale_x_start
         }){
     /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
@@ -145,14 +146,23 @@ export default function RenderLabelsSVG({json, StartPos, DayData,
     };
 
     const[labelsTemp,linesTemp] = renderAxisLabels(minTemp, maxTemp, linesNumberTemp, stepsTemp,0);
+
+    const [labelRain,linesRain]= renderAxisLabels(minRain,maxRain, linesNumberRain, stepsRain,1,
+        null,null
+        ,false);
+
+    const [labelHum,__linesHum]= renderAxisLabels(minHum,maxHum, linesNumberHum, stepsHum,1,
+        (v)=>Math.round(v),null,
+        true,false,false);
+
+
     const[labelsPres,linesPres] = renderAxisLabels(minSlPres,maxSlPres, linesNumberSlPres, stepsSlPres,2,
-        (v)=>Math.round(v*0.001), (v)=>Math.round(v*0.0075006) );
+         (v)=>Math.round(v*0.0075006),(v)=>Math.round(v*0.01) );
 
     const [labelsWind,linesWind] = renderAxisLabels(minWind,maxWind, linesNumberWind, stepsWind,3,
         null,(v)=>Math.round(v*3.6));
     
-    const [labelRain,linesRain]= renderAxisLabels(minRain,maxRain, linesNumberRain, stepsRain,1,
-        null,null,false);
+
     
     
     return(
@@ -163,6 +173,7 @@ export default function RenderLabelsSVG({json, StartPos, DayData,
 
     {labelRain}
     {linesRain}
+    {labelHum}
 
     {labelsPres}
     {linesPres}

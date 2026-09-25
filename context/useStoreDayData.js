@@ -7,7 +7,7 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { getDayData } from '@/functions/dayDataHandler';
+import { getDayData } from '@/functions/dayDataAPI';
 
 import * as dayDataCache from './cacheHandler/cacheHandler';
 

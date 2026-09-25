@@ -5,7 +5,7 @@ import { View, Text, TextInput, StyleSheet, FlatList, Alert,Pressable } from 're
 import Button from "@/components/reusable/Button";
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 
-import {searchPlace} from "@/functions/searchCityHandler";
+import {searchPlace} from "@/functions/searchCityAPI";
 import {coordsToXYString} from "@/functions/coordsHandler";
 
 import { FavListContext } from '@/context/FavListContext';

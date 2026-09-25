@@ -6,7 +6,7 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import {getDataModel120} from '@/functions/coordsHandler';
+import { getDataModel120 } from '@/functions/120dataAPI';
 
  import * as api120Cache from './cacheHandler/cacheHandler';
 

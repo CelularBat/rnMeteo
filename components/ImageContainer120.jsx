@@ -41,6 +41,7 @@ const handleLongPress = () => {
         
        // panEnabled={false}
       >
+        
         <MainSVG json={json} StartPos={StartPos}  DayData={DayData} style={styles.image} contentFit='contain'/>
       </ReactNativeZoomableView>
     </View>
