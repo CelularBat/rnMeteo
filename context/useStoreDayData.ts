@@ -1,4 +1,4 @@
-/* context/useStoreDayData.js */
+
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 /*              STORE FOR SUNRISE/SUNSET DATA AND DAILY CACHING              */
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
@@ -7,32 +7,55 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { getDayData } from '@/functions/dayDataAPI';
+import { getDayData,TDayData } from '@/functions/dayDataAPI';
 
 import * as dayDataCache from './cacheHandler/cacheHandler';
 
+interface TDayCacheIndexObj  {
+  date : string,
+  cacheKey : string,
+}
 
 export const useStoreDayData = create(
   persist(
     (set, get) => ({
       cacheIndex: {},
 
-      getDayData: async (lon, lat) => {
+      getDayData: async (lon:number, lat:number) => {
         if (!lat || !lon) {
           console.warn('useStoreDayData: getDayData(): Empty values passed');
           return null;
         }
 
+        // If somehow parameters are wrapped in string, convert them
+        if (typeof lat === 'string'){
+          lat = Number(lat);
+          if (!Number.isFinite(lat)){
+            console.warn("useStoreDayData: getData(): lat: "+lat+ " is inValid number");
+            return null;
+          }
+        }
+        if (typeof lon === 'string'){
+          lon = Number(lon);
+          if (!Number.isFinite(lon)){
+            console.warn("useStoreDayData: getData(): lon: "+lon+ " is inValid number");
+            return null;
+          }
+        }
+        
+        /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+        /*                             GETTING FROM CACHE                             */
+        /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
         const locationIdxKey = `${lon}&${lat}`;
         const cacheIndex = get().cacheIndex;
-        const entry = cacheIndex[locationIdxKey];
+        const entry:TDayCacheIndexObj = cacheIndex[locationIdxKey];
 
         // Dzisiejsza data w formacie YYYY-MM-DD
         const today = new Date().toISOString().split('T')[0];
 
         // Sprawdź cache
         if (entry) {
-          const cachedData = await dayDataCache.get(entry.cacheKey);
+          const cachedData : TDayData = await dayDataCache.get(entry.cacheKey);
 
           if (cachedData) {
             if (cachedData.date === today) {
@@ -49,7 +72,7 @@ export const useStoreDayData = create(
         }
 
          // Cache miss or expired cache -> fetch new data.
-        const dayData = await getDayData(lon, lat);
+        const dayData : TDayData = await getDayData(lon, lat);
 
         if (!dayData || !dayData.date) {
           return null;
@@ -60,7 +83,7 @@ export const useStoreDayData = create(
         await dayDataCache.set(cacheKey, dayData);
 
          // Store only the small index in Zustand.
-        set((state) => ({
+        set((state:any) => ({
           cacheIndex: {
             ...state.cacheIndex,
 
@@ -78,7 +101,7 @@ export const useStoreDayData = create(
       name: 'dayData-index',
       storage: createJSONStorage(() => AsyncStorage),
 
-      partialize: (state) => ({
+      partialize: (state:any) => ({
         cacheIndex: state.cacheIndex,
       }),
     }

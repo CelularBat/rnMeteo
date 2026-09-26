@@ -208,7 +208,7 @@ export default function RenderGraphsSVG({json, StartPos,
         return (
             <G
                 key={`wind10-dr-${idx}`}
-                rotation={deg}
+                rotation={deg-180}
                 origin={`${p.x},${p.y}`}
             >
                 <Line

@@ -8,6 +8,8 @@
     
 */
 
+
+
 /* Corners of UM on map:
 1o58'27''E 65o18'10''N ,
 36o58'6''E 65o15'59''N ,
@@ -24,7 +26,21 @@ max latitude  = 65.3027778
 const LIMIT = 20;
 const VIEWBOX="1.9741667,65.3027778,36.9683333,44.7250000";
 
-async function searchPlace(placeString) {
+export interface TFavPlace{
+  display_name: string;
+  name: string;
+  city: string;
+  municipality: string;
+  county: string;
+  state: string;
+  country: string;
+  lon: number;
+  lat: number;
+  location: string;
+  region:string;
+}
+
+async function searchPlace(placeString:string) {
     try {
         const fetchOptions = {
             headers: {
@@ -49,7 +65,7 @@ async function searchPlace(placeString) {
                 throw new Error(`JSON has no key "features"`);
             } 
 
-            let resultList = []; // results being kept here.
+            let resultList:TFavPlace[] = []; // results being kept here.
 
            
             for (let idx in data) {
@@ -59,7 +75,7 @@ async function searchPlace(placeString) {
                     && (! resultList.some(item=> item.display_name === data[idx].properties.display_name))           
                 ){
                     
-                    let newPlace = {
+                    let newPlace:TFavPlace = {
                         display_name: data[idx].properties.display_name,
                         name: data[idx].properties.name,
                         city:data[idx].properties.address.city,	
@@ -69,6 +85,8 @@ async function searchPlace(placeString) {
                         country: data[idx].properties.address.country,
                         lon: data[idx].geometry.coordinates[0],
                         lat: data[idx].geometry.coordinates[1],
+                        location: '',
+                        region: '',
                     };
 
                     newPlace.location = formatLocationString(newPlace);
@@ -90,7 +108,7 @@ async function searchPlace(placeString) {
 }
 
 // jeśli jest gmina to gmina, jeśli tylko powiat to powiat.
-function formatLocationString(placeData){
+function formatLocationString(placeData:TFavPlace){
     let res = placeData.name;
     if (placeData.city){
         res = res + ", "+placeData.city;

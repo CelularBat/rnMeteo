@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Save data to cache
-const saveToCache = async (key, value) => {
+const saveToCache = async (key:string, value:unknown) => {
   try {
     const jsonValue = JSON.stringify(value);
     await AsyncStorage.setItem(key, jsonValue);
@@ -12,7 +12,7 @@ const saveToCache = async (key, value) => {
 };
 
 // Retrieve data from cache
-const getFromCache = async (key) => {
+const getFromCache = async (key:string) => {
   try {
     const jsonValue  = await AsyncStorage.getItem(key);
 

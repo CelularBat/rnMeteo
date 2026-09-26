@@ -1,9 +1,9 @@
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 /*                CONTEXT FOR MANAGING LIST OF FAVORITE CITIES                */
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-
+// Old implementation - to be replaced with zustand store
 import React from "react";
-import {saveToCache,getFromCache} from "@/functions/favListLocalStorageHandler.js";
+import {saveToCache,getFromCache} from "@/functions/favListLocalStorageHandler";
 import { nanoid } from "nanoid/non-secure";
 
 const exampleList = [

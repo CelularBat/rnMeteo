@@ -6,6 +6,8 @@ import { useNavigation } from '@react-navigation/native';
 
 import MainSVG from '@/components/svgMaker/MainSVG';
 import ImageContainer120 from '@/components/ImageContainer120';
+import LegendContainer from '@/components/LegendContainer';
+import AnimatedSun from '@/components/AnimatedSun';
 
 import { FavListContext } from '@/context/FavListContext';
 import { useStoreAPI120 } from '@/context/useStore120API';
@@ -95,7 +97,7 @@ const TestSVG = () => {
 
     const SVG = (JSON && DayData) ? 
         (<ImageContainer120 json={JSON} StartPos={StartPos} DayData={DayData} />)
-        : (<Text>Connection Error: No Data</Text>);
+        : (<AnimatedSun text="Pobieranie danych..." size={200} speed={0.6} timeout={10000} textTimeout='Błąd połączenia:('/>);
 
     const refreshBtn= (
     <TouchableOpacity style={[styles.btns, styles.refreshBtn]}
@@ -121,21 +123,27 @@ const TestSVG = () => {
         {legentBtn}
         {refreshBtn}
 
+         {isVertical &&
+            <View style={styles.arrowsVertical}>
+        
+                
+                {leftArrow}
+                {rightArrow}
+
+            </View>
+        }
+
+
         {!isVertical && leftArrow}
 
+        { !isVertical  && ShowLegend &&
+         <LegendContainer onPress={()=>setShowLegend(false)}/>
+       }
         {SVG}
 
         {!isVertical && rightArrow}
 
-        {isVertical &&
-            <View style={styles.arrowsVertical}>
-     
-                
-                {leftArrow}
-                {rightArrow}
-   
-            </View>
-        }
+
         
     </View>
     );
@@ -152,6 +160,8 @@ const styles = StyleSheet.create({
     },
 
     arrowButton: {
+        marginLeft: 40,
+        marginRight:40,
         width: 42,
         height: 42,
         borderRadius: 21,
@@ -195,13 +205,15 @@ const styles = StyleSheet.create({
 
 /* vertical pos ============================================================= */
     containerVertical: {
+        display:'flex',
         width:'100%',
         maxWidth:'100%',
         flexDirection: 'column',
-        alignItems: 'stretch',
+        alignItems: 'center',
         justifyContent: 'flex-start',
     },
     arrowsVertical: {
+        marginTop:30,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
