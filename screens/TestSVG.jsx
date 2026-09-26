@@ -13,6 +13,8 @@ import { FavListContext } from '@/context/FavListContext';
 import { useStoreAPI120 } from '@/context/useStore120API';
 import { useStoreDayData } from '@/context/useStoreDayData';
 
+import c from '@/context/constStore';
+
 const STEP_HOURS = 12;
 
 const TestSVG = () => {
@@ -72,10 +74,11 @@ const TestSVG = () => {
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
     const {width,height} = useWindowDimensions();
     const isVertical = height > width;
-
+    const hasNoSpace = height - c.headerBarHeight - (width / c.SVG_w * c.SVG_h) < 50;
+    console.log(height,height - c.headerBarHeight - c.SVG_h < 10);
 
     const leftArrow =( <TouchableOpacity
-            style={[styles.arrowButton, styles.arrowLeft]}
+            style={[styles.arrowButton, isVertical && hasNoSpace && styles.arrowButtonSmall]}
             activeOpacity={0.7}
             onPress={() =>
                 setStartPos((prev) => (prev - STEP_HOURS >= MinPos ? prev - STEP_HOURS : MinPos))
@@ -85,7 +88,7 @@ const TestSVG = () => {
         </TouchableOpacity>)
 
     const rightArrow=(<TouchableOpacity
-            style={[styles.arrowButton, styles.arrowRight]}
+            style={[styles.arrowButton, isVertical && hasNoSpace && styles.arrowButtonSmall ]}
             activeOpacity={0.7}
             onPress={() =>
                 setStartPos((prev) => (prev + STEP_HOURS < 80 ? prev + STEP_HOURS : prev))
@@ -124,8 +127,7 @@ const TestSVG = () => {
         {refreshBtn}
 
          {isVertical &&
-            <View style={styles.arrowsVertical}>
-        
+            <View style={hasNoSpace? styles.arrowsVerticalSmall : styles.arrowsVertical}>
                 
                 {leftArrow}
                 {rightArrow}
@@ -205,22 +207,36 @@ const styles = StyleSheet.create({
 
 /* vertical pos ============================================================= */
     containerVertical: {
-        display:'flex',
-        width:'100%',
         maxWidth:'100%',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'flex-start',
     },
     arrowsVertical: {
-        marginTop:30,
+        marginTop:3,
+        zIndex: 99999999,
+         position: 'absolute',
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        gap: 90,
-        paddingVertical: 10,
-        paddingBottom: 20
+        gap: 70
     },
+/* small vertical =========================================================== */
+    arrowsVerticalSmall: {
+        bottom:5,
+        zIndex: 99999999,
+         position: 'absolute',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 120
+    },
+    arrowButtonSmall:{
+        width: 24,
+        height: 24,
+        borderRadius: 12,
+    }
+    
 });
 
 export default TestSVG;

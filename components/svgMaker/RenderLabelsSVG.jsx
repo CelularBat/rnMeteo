@@ -160,7 +160,7 @@ export default function RenderLabelsSVG({json, StartPos, DayData,
          (v)=>Math.round(v*0.0075006),(v)=>Math.round(v*0.01) );
 
     const [labelsWind,linesWind] = renderAxisLabels(minWind,maxWind, linesNumberWind, stepsWind,3,
-        null,(v)=>Math.round(v*3.6));
+        (v)=>Math.round(v*3.6),null);
     
 
     
