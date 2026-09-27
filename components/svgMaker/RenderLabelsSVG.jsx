@@ -84,7 +84,8 @@ export default function RenderLabelsSVG({json, StartPos, DayData,
     /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
     function renderAxisLabels (min,max,lines,steps,frameIndex, 
         rightConvertFunc = null,leftConvertFunc= null,
-        renderRight = true,renderLeft = true, renderLine = true, ){
+        renderRight = true,renderLeft = true, renderLine = true, 
+        textColor = null){
 
     const renderedLabels = [];
     const renderedLines = [];
@@ -107,6 +108,7 @@ export default function RenderLabelsSVG({json, StartPos, DayData,
                             y={y + 4}
                             textAnchor="end"
                             {...scaleStyle}
+                            {...(textColor? {fill:textColor} : {} )}
                         >
                            {leftConvertFunc ? leftConvertFunc(value) : value}
                         </Text>
@@ -118,6 +120,7 @@ export default function RenderLabelsSVG({json, StartPos, DayData,
                             y={y + 4}
                             textAnchor="start"
                             {...scaleStyle}
+                            {...(textColor? {fill:textColor} : {} )}
                         >
                             {rightConvertFunc ? rightConvertFunc(value) : value}
                         </Text>
@@ -153,7 +156,8 @@ export default function RenderLabelsSVG({json, StartPos, DayData,
 
     const [labelHum,__linesHum]= renderAxisLabels(minHum,maxHum, linesNumberHum, stepsHum,1,
         (v)=>Math.round(v),null,
-        true,false,false);
+        true,false,false,
+        "#ffa500");
 
 
     const[labelsPres,linesPres] = renderAxisLabels(minSlPres,maxSlPres, linesNumberSlPres, stepsSlPres,2,

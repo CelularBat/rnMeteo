@@ -6,11 +6,14 @@ import { FavListContext } from '@/context/FavListContext';
 import c from '@/context/constStore';
 import MetallicSwitch from './reusable/MetallicSwitch';
 import { useUIStore } from '@/context/useStoreUI';
+import { adjustVal_Smaller_ScreenW } from '@/hooks/useResponsiveThresholds';
 
 const CustomHeader = ({route}) => {
   const navigation = useNavigation();
   const {G_CurrentCity} = React.useContext(FavListContext);
   const {G_Is_Model_120,G_Toogle_Model_120} = useUIStore();
+
+  const styles = useStyles();
 
   let title;
   let showModelSwitch = false;
@@ -64,35 +67,39 @@ const CustomHeader = ({route}) => {
   );
 };
 
-const styles = StyleSheet.create({
-  header: {
-    
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 16,
-    height: c.headerBarHeight,
-    backgroundColor: '#f4511e',
-  },
-  menuIcon: {
-    fontSize: 24,
-    color: '#fff',
-    marginRight: 16,
-  },
-  titleContainer:{
-    flex:1,
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#fff',
-  },
-  region: {
-    fontSize: 15,
-    fontWeight: 'normal',
-    color: '#eee',
-  },
-});
+const useStyles = () => {
+    const title_fontSize = adjustVal_Smaller_ScreenW(18, [[390, 15]]);
+    const region_fontSize = adjustVal_Smaller_ScreenW(15, [[390, 13]]);
+
+    return React.useMemo(() => StyleSheet.create({
+        header: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            paddingHorizontal: 16,
+            height: c.headerBarHeight,
+            backgroundColor: '#f4511e',
+        },
+        menuIcon: {
+            fontSize: 24,
+            color: '#fff',
+            marginRight: 16,
+        },
+        titleContainer: {
+            flex: 1,
+            alignItems: 'center',
+            justifyContent: 'center',
+        },
+        title: {
+            fontSize:title_fontSize,
+            fontWeight: 'bold',
+            color: '#fff',
+        },
+        region: {
+            fontSize: region_fontSize,
+            fontWeight: 'normal',
+            color: '#eee',
+        },
+    }), [title_fontSize,region_fontSize]);
+};
 
 export default CustomHeader;

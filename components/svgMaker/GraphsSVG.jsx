@@ -86,9 +86,10 @@ function normalizeMinMax_temp(min,max,defaultStep=5){
 }
 
 // Function for rain/fog - always 4 lines, adjsting visible range
-function normalizeMinMax_To4Lines(min,max){
+function normalizeMinMax_To4Lines(min,max,maxAt100=false){
     
     let step;
+    
     const range = max - min;
     if (range<5){ step = 1} // 1 * 5
     else if (range<15){ step = 3} // 3 * 5
@@ -97,9 +98,14 @@ function normalizeMinMax_To4Lines(min,max){
     else if(range<75){ step = 15} // 15 * 5
     else { step = 20}
 
-    const n_max = min + step*5;
+    let n_max = min + step*5;
+    let n_min = min;
 
-    return [min,n_max, 4, step];
+    if (maxAt100 && n_max>100){
+        n_min = min - (n_max - 100);
+        n_max = 100;
+    }
+    return [n_min,n_max, 4, step];
 }
 
 
@@ -170,7 +176,7 @@ export default function GraphsSVG({json,StartPos: StartPos, DayData,
     
     // humidity
     var [minHum,maxHum] = findMinMax(json,["realhum_aver"]);
-    var [minHum,maxHum, linesNumberHum, stepsHum] = normalizeMinMax_To4Lines(minHum,maxHum);
+    var [minHum,maxHum, linesNumberHum, stepsHum] = normalizeMinMax_To4Lines(minHum,maxHum,true);
     calculatePoints(DPoint,["realhum_aver"],minHum,maxHum,c_Frames[1].y,c_Frames[1].y+c_Frames[1].h);
 
     //max/min raining/snowing

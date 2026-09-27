@@ -30,7 +30,7 @@ export default function ModelSwitch({isActive,onToogle}) {
     <View style={styles.wrapper}>
       <Text style={styles.title}>Model</Text>
 
-      <Pressable onPress={toggle}>
+      <Pressable onPress={toggle} style={{zIndex:100}}>
         <View style={styles.switch}>
           <LinearGradient
             colors={['#f5f5f5', '#cfcfcf', '#eeeeee', '#a9a9a9']}
@@ -70,8 +70,8 @@ export default function ModelSwitch({isActive,onToogle}) {
 
       {/* Napisy pod switchem */}
       <View style={styles.labels}>
-        <Text style={styles.label}>old 60h</Text>
-        <Text style={styles.label}>new 120h</Text>
+        <Text style={styles.label}>{"old\n60h"}</Text>
+        <Text style={styles.label}>{"new\n120h"}</Text>
       </View>
     </View>
   );
@@ -79,7 +79,8 @@ export default function ModelSwitch({isActive,onToogle}) {
 
 const styles = StyleSheet.create({
   wrapper: {
-    width: 110,
+  
+    width: 100,
     alignItems: 'center',
   },
 
@@ -92,6 +93,7 @@ const styles = StyleSheet.create({
   },
 
   switch: {
+    zIndex:100,
     width: 53,
     height: 25,
     borderRadius: 13,
@@ -180,10 +182,14 @@ const styles = StyleSheet.create({
   },
 
   labels: {
-    width: 120,
-
+    zIndex:10,
+    width: 105,
+    top:22,
+    left:1,
+    position:"absolute",
     flexDirection: 'row',
     justifyContent: 'space-between',
+    textAlignVertical:'center',
     marginTop: 1,
   },
 
