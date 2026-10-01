@@ -91,10 +91,15 @@ export const useStoreAPI120 = create(
           date.setUTCHours(0, 0, 0, 0);
           date.setUTCHours(date.getHours()-14);
         }
-        else{
+        else if (date.getHours() < 21){
           // We need to get json with currentdate at 00:00 CET or 22:00 (previous day) UTC
           date.setUTCHours(0, 0, 0, 0);
           date.setUTCHours(date.getHours()-2);
+
+        } else {
+          // We need to get json with currentdate at 12:00 CET today, which is 10:00 UTC
+          date.setUTCHours(0, 0, 0, 0);
+          date.setUTCHours(date.getHours()+10);
 
         }
         // Date mus be divided by 1000

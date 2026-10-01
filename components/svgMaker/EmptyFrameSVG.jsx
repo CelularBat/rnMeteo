@@ -11,7 +11,7 @@ import RenderBackground from "./RenderBackGroundSVG";
   const c_FrameX = 62;
   const c_FrameW = 420;
 
-  const c_UTC_y = 619;
+  const c_UTC_y = 626;
   const c_CEST_y = 54;
 
   const UTC_right_x = 16;
@@ -82,12 +82,12 @@ import RenderBackground from "./RenderBackGroundSVG";
 
   const c_Frames = [
     { y: 57, h: 78 },
-    { y: 143, h: 78 },
-    { y: 230, h: 78 },
-    { y: 317, h: 78 },
-    { y: 401, h: 31 },
-    { y: 438, h: 80 },
-    { y: 527, h: 80 },
+    { y: 145, h: 78 },
+    { y: 234, h: 78 },
+    { y: 323, h: 78 },
+    { y: 406, h: 31 },
+    { y: 442, h: 80 },
+    { y: 533, h: 80 },
   ];
 
     /*
@@ -120,7 +120,7 @@ import RenderBackground from "./RenderBackGroundSVG";
     {
       center: centers.rain,
       left: ["opad", "(mm/h, kg/m²/h)"],
-      right: ["wilgotność wzgl.", "(%)"],
+      right: ["wilgotność", "wzgl. (%)"],
     },
     {
       center: centers.pressure,
@@ -370,6 +370,10 @@ export default function EmptyFrameSVG({children,json, StartPos,DayData}) {
             ====================================================== */}
             <SvgText style={footerStyle} x={10} y={650} textAnchor="start">
               meteo@icm.edu.pl
+            </SvgText>
+
+            <SvgText style={footerStyle} x={300} y={650} textAnchor="start">
+              © 2007-2026 ICM, Uniwersytet Warszawski
             </SvgText>
 
       </Svg>
