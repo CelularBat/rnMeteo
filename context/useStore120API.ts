@@ -8,7 +8,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { getDataModel120 ,T120Json} from '@/functions/120dataAPI';
 
-import * as api120Cache from './cacheHandler/cacheHandler';
+import CacheHandler from './cacheHandler/cacheHandler';
 
 interface TCacheIndexObj  {
   fstart : string,
@@ -16,6 +16,7 @@ interface TCacheIndexObj  {
 }
 
 const TIME_RETENTION = 1000 *60 * 60 * 24 ; // 48 hours
+const api120Cache = new CacheHandler("api_120_cache:");
 
 export const useStoreAPI120 = create(
   persist(
@@ -58,10 +59,10 @@ export const useStoreAPI120 = create(
           const now = Date.now();
 
           const isValid = !Number.isNaN(fstartTime) &&
-            now - fstartTime < TIME_RETENTION;
+            now - fstartTime < TIME_RETENTION; 
          
           if (isValid) {
-            const cachedData = await api120Cache.get(entry.cacheKey);
+            const cachedData : TCacheIndexObj = await api120Cache.get(entry.cacheKey);
 
             if (cachedData) {
               console.debug("Retrieved data from JSONcache: " ,locationIdxKey);

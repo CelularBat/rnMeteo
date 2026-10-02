@@ -1,13 +1,21 @@
 // cacheHandler.js
 
-export const get = async (key) => {
-  throw new Error('cacheHandler is not implemented for this platform');
-};
+export default class CacheHandler {
+  constructor(prefix,useLocalStorage=false) {
+    this._prefix = prefix;
+    this._useLocalStorage = useLocalStorage;
+  }
 
-export const set = async (key,value) => {
-  throw new Error('cacheHandler is not implemented for this platform');
-};
+  async get(key) {
+    throw new Error('cacheHandler is not implemented for this platform');
+  }
 
-export const remove = async (key) => {
-  throw new Error('cacheHandler is not implemented for this platform');
-};
+  async set(key, value) {
+    throw new Error('cacheHandler is not implemented for this platform');
+  }
+
+  async remove(key) {
+    throw new Error('cacheHandler is not implemented for this platform');
+  }
+}
+

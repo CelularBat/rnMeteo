@@ -41,6 +41,10 @@ const TestSVG = () => {
                 const resDay = await getDayData(G_CurrentCity.lat, G_CurrentCity.lon);
                 setDayData(resDay);
 
+                if (!res || !resDay){
+                    return;
+                }
+
                 /* Offset, so we render only data since current time ====== */
                 const fstart = new Date(res.fstart);
                 const now = new Date();
@@ -75,7 +79,7 @@ const TestSVG = () => {
     const {width,height} = useWindowDimensions();
     const isVertical = height > width;
     const hasNoSpace = height - c.headerBarHeight - (width / c.SVG_w * c.SVG_h) < 50;
-    console.log(height,height - c.headerBarHeight - c.SVG_h < 10);
+    //console.log(height,height - c.headerBarHeight - c.SVG_h < 10);
 
     const leftArrow =( <TouchableOpacity
             style={[styles.arrowButton, isVertical && hasNoSpace && styles.arrowButtonSmall]}
@@ -127,14 +131,11 @@ const TestSVG = () => {
         {refreshBtn}
 
          {isVertical &&
-            <View style={hasNoSpace? styles.arrowsVerticalSmall : styles.arrowsVertical}>
-                
+            <View style={hasNoSpace? styles.arrowsVerticalSmall : styles.arrowsVertical}>      
                 {leftArrow}
                 {rightArrow}
-
             </View>
         }
-
 
         {!isVertical && leftArrow}
 

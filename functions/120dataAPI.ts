@@ -86,13 +86,13 @@ export async function getDataModel120(date:number, lat:number, lon:number):Promi
       })
     });
     if (!response.ok) {
-      console.error(`HTTP error! status: ${response.status}`);
+      console.error(`getDataModel120::HTTP error! status: ${response.status}`);
       return null;
     }
     return response.json();
 
   } catch (error) {
-        console.error('Fetch error:', error);
+        console.error('getDataModel120::Fetch error:', error);
         return null;
   }
 }

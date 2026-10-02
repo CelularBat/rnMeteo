@@ -11,6 +11,7 @@ function ImageContainer({ url,doCropBanner }) {
 
 // on longPress we change key, so component is replaced with new instance.
 const [zoomableKey, setZoomableKey] = React.useState(0);
+
 const handleLongPress = () => {
   setZoomableKey(prev => prev + 1);
 };
@@ -77,7 +78,6 @@ React.useEffect(() => {
     }
   }
 }, [url,doCropBanner]);
-
 
   return (
     <View style={styles.container}>

@@ -4,16 +4,23 @@ import {
   del as idbDelete,
 } from 'idb-keyval';
 
-const PREFIX = 'app-cache:';
 
-export const get = async (key) => {
-  return idbGet(`${PREFIX}${key}`);
-};
+export default class CacheHandler {
+  constructor(prefix,useLocalStorage=false) {
+    this._prefix = prefix;
+    this._useLocalStorage = useLocalStorage;
+  }
 
-export const set = async (key, value) => {
-  await idbSet(`${PREFIX}${key}`, value);
-};
+  async get (key) {
+    return idbGet(`${this._prefix}${key}`);
+  };
 
-export const remove = async (key) => {
-  await idbDelete(`${PREFIX}${key}`);
-};
+    async set (key, value) {
+    await idbSet(`${this._prefix}${key}`, value);
+  };
+
+    async remove (key) {
+    await idbDelete(`${this._prefix}${key}`);
+  };
+
+}

@@ -9,12 +9,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { getDayData,TDayData } from '@/functions/dayDataAPI';
 
-import * as dayDataCache from './cacheHandler/cacheHandler';
+import CacheHandler from './cacheHandler/cacheHandler';
 
 interface TDayCacheIndexObj  {
   date : string,
   cacheKey : string,
 }
+
+const dayDataCache = new CacheHandler("api_day_data_cache");
 
 export const useStoreDayData = create(
   persist(
@@ -53,7 +55,7 @@ export const useStoreDayData = create(
         // Dzisiejsza data w formacie YYYY-MM-DD
         const today = new Date().toISOString().split('T')[0];
 
-        // Sprawdź cache
+        // Sprawdź cache 
         if (entry) {
           const cachedData : TDayData = await dayDataCache.get(entry.cacheKey);
 
@@ -72,7 +74,7 @@ export const useStoreDayData = create(
         }
 
          // Cache miss or expired cache -> fetch new data.
-        const dayData : TDayData = await getDayData(lon, lat);
+        const dayData : TDayData | null = await getDayData(lon, lat);
 
         if (!dayData || !dayData.date) {
           return null;

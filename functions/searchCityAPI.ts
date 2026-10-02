@@ -22,23 +22,12 @@ max longitude = 36.9683333
 min latitude  = 44.7250000
 max latitude  = 65.3027778
 */
+import type { TFavPlace } from "@/types/TFavPlace";
 
 const LIMIT = 20;
 const VIEWBOX="1.9741667,65.3027778,36.9683333,44.7250000";
 
-export interface TFavPlace{
-  display_name: string;
-  name: string;
-  city: string;
-  municipality: string;
-  county: string;
-  state: string;
-  country: string;
-  lon: number;
-  lat: number;
-  location: string;
-  region:string;
-}
+
 
 async function searchPlace(placeString:string) {
     try {
@@ -87,11 +76,13 @@ async function searchPlace(placeString:string) {
                         lat: data[idx].geometry.coordinates[1],
                         location: '',
                         region: '',
+                        id:'' // id is created inside a store
                     };
 
                     newPlace.location = formatLocationString(newPlace);
                     newPlace.region = (newPlace.country === "Polska") ?
-                        newPlace.state : (`${newPlace.state}, ${newPlace.country}`);
+                        newPlace.state 
+                        : (`${newPlace.state}, ${newPlace.country}`);
 
                     resultList.push(newPlace);
                 }
@@ -108,7 +99,7 @@ async function searchPlace(placeString:string) {
 }
 
 // jeśli jest gmina to gmina, jeśli tylko powiat to powiat.
-function formatLocationString(placeData:TFavPlace){
+function formatLocationString(placeData:TFavPlace):string{
     let res = placeData.name;
     if (placeData.city){
         res = res + ", "+placeData.city;

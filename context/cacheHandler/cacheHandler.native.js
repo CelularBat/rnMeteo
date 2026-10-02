@@ -1,59 +1,60 @@
 import { File, Directory, Paths } from 'expo-file-system';
 
-const CACHE_DIR = new Directory(Paths.cache, 'app-cache');
-
-const ensureCacheDir = () => {
-  if (!CACHE_DIR.exists) {
-    CACHE_DIR.create({
+const ensureCacheDir = (dir) => {
+  if (!dir.exists) {
+    dir.create({
       idempotent: true,
       intermediates: true,
     });
   }
 };
 
-const getFile = (key) => {
-  const safeKey = encodeURIComponent(key);
 
-  return new File(CACHE_DIR, `${safeKey}.json`);
-};
+export default class CacheHandler {
 
-export const get = async (key) => {
-  ensureCacheDir();
-
-  const file = getFile(key);
-
-  if (!file.exists) {
-    return null;
+  constructor(prefix,useLocalStorage=false){ 
+    this.CACHE_DIR = new Directory(Paths.cache, prefix);
+    ensureCacheDir(this.CACHE_DIR);
   }
 
-  try {
-    const content = await file.text();
+  async get(key){
+    const safeKey = encodeURIComponent(key);
+    const file = new File(this.CACHE_DIR, `${safeKey}.json`);
 
-    return JSON.parse(content);
-  } catch {
-    return null;
-  }
-};
+    if (!file.exists) {
+      return null;
+    }
 
-export const set = async (key, value) => {
-  ensureCacheDir();
+    try {
+      const content = await file.text();
 
-  const file = getFile(key);
-  const content = JSON.stringify(value);
+      return JSON.parse(content);
+    } catch {
+      return null;
+    }
+  };
 
-  if (!file.exists) {
-    file.create({
-      intermediates: true,
-    });
-  }
+  async set(key, value){
+    const safeKey = encodeURIComponent(key);
+    const file = new File(this.CACHE_DIR, `${safeKey}.json`);
+    const content = JSON.stringify(value);
 
-  file.write(content);
-};
+    if (!file.exists) {
+      file.create({
+        intermediates: true,
+      });
+    }
 
-export const remove = async (key) => {
-  const file = getFile(key);
+    file.write(content);
+  };
 
-  if (file.exists) {
-    file.delete();
-  }
-};
+  async remove(key){
+    const safeKey = encodeURIComponent(key);
+    const file = new File(this.CACHE_DIR, `${safeKey}.json`);
+
+    if (file.exists) {
+      file.delete();
+    }
+  };
+
+}
