@@ -8,11 +8,12 @@ export interface TFavPlace{
   display_name: string;
   name: string;
   country: string;
+  state: string;
 
   city?: string;
   municipality?: string;
   county?: string;
-  state?: string;
+ 
 
 
   XYstr?:string;

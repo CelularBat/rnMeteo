@@ -24,25 +24,17 @@ export const useStoreDayData = create(
       cacheIndex: {},
 
       getDayData: async (lon:number, lat:number) => {
-        if (!lat || !lon) {
-          console.warn('useStoreDayData: getDayData(): Empty values passed');
-          return null;
-        }
-
         // If somehow parameters are wrapped in string, convert them
         if (typeof lat === 'string'){
           lat = Number(lat);
-          if (!Number.isFinite(lat)){
-            console.warn("useStoreDayData: getData(): lat: "+lat+ " is inValid number");
-            return null;
-          }
         }
         if (typeof lon === 'string'){
           lon = Number(lon);
-          if (!Number.isFinite(lon)){
-            console.warn("useStoreDayData: getData(): lon: "+lon+ " is inValid number");
-            return null;
-          }
+        }
+
+        if (!Number.isFinite(lat) || !Number.isFinite(lon)){
+          console.warn("useStoreAPI120: getData(): Empty values passed. lat: "+lat+" lon: "+lon);
+          return null;
         }
         
         /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
@@ -57,7 +49,7 @@ export const useStoreDayData = create(
 
         // Sprawdź cache 
         if (entry) {
-          const cachedData : TDayData = await dayDataCache.get(entry.cacheKey);
+          const cachedData : TDayData | null = await dayDataCache.get(entry.cacheKey);
 
           if (cachedData) {
             if (cachedData.date === today) {
