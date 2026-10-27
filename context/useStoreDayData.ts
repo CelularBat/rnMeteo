@@ -7,7 +7,7 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { getDayData,TDayData } from '@/functions/dayDataAPI';
+import { getDayData,TDayData } from '@/functions/API/dayDataAPI';
 
 import CacheHandler from './cacheHandler/cacheHandler';
 
@@ -55,9 +55,17 @@ export const useStoreDayData = create(
             if (cachedData.date === today) {
               console.debug('Retrieved dayData from JSONcache:',locationIdxKey );
               return cachedData;
+            } 
+            else{
+              console.debug('Found dayData in cache, but date is outdated:',cachedData.date,locationIdxKey);
+              dayDataCache.remove(entry.cacheKey);
+              set((state:any) => {
+                const cacheIndex = { ...state.cacheIndex };
+                delete cacheIndex[locationIdxKey];
+                return { cacheIndex };
+              });
             }
-
-            console.debug('Found dayData in cache, but date is outdated:',cachedData.date,locationIdxKey);
+            
           } else {
             console.warn('JSONcache found in index, but cannot be found:',locationIdxKey);
           }

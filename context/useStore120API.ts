@@ -6,7 +6,7 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { getDataModel120 ,T120Json} from '@/functions/120dataAPI';
+import { getDataModel120 ,T120Json} from '@/functions/API/120dataAPI';
 
 import CacheHandler from './cacheHandler/cacheHandler';
 
@@ -85,28 +85,24 @@ export const useStoreAPI120 = create(
         /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
         
         const date = new Date();
-
+          // We need to send correct date in UTC+0, but encoded in local Polish time (UTC+2 or UTC+1)
         if (date.getHours() < 7){
-          // We need to get json with currentdate at 12:00 CET previous day, which is 10:00 UTC
+         
           date.setUTCHours(0, 0, 0, 0);
-          date.setUTCHours(date.getHours()-14);
+          date.setUTCHours(date.getUTCHours()-12);
         }
         else if (date.getHours() < 21){
-          // We need to get json with currentdate at 00:00 CET or 22:00 (previous day) UTC
+          
           date.setUTCHours(0, 0, 0, 0);
-          date.setUTCHours(date.getHours()-2);
-
+          
         } else {
-          // We need to get json with currentdate at 12:00 CET today, which is 10:00 UTC
-          date.setUTCHours(0, 0, 0, 0);
-          date.setUTCHours(date.getHours()+10);
-
+          date.setUTCHours(12, 0, 0, 0);
         }
         // Date mus be divided by 1000
         const timestamp = date.getTime() / 1000;
 
         
-        const json : T120Json|null = await getDataModel120(timestamp, lat, lon);
+        const json : T120Json|null = await getDataModel120(timestamp, lat, lon, "120");
   
         if (!json || !json.data || !json.fstart) return null;
 

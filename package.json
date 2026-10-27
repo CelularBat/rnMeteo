@@ -1,7 +1,7 @@
 {
   "name": "rnmeteo",
   "main": "main.js",
-  "version": "4.1.2",
+  "version": "4.2.0",
   "scripts": {
     "start": "npx expo start",
     "reset-project": "node ./scripts/reset-project.js",

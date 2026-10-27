@@ -2,7 +2,7 @@ import type { TFavPlace } from "@/types/TFavPlace";
 
 export const exampleList: TFavPlace[] = [
   {
-    id:0,
+    id:"0",
     display_name:"Jamniki, gmina Urszulin, powiat włodawski, województwo lubelskie, Polska",
     name:"Jamniki",
     country:"Polska",
@@ -13,7 +13,7 @@ export const exampleList: TFavPlace[] = [
     lat: 51.4556024,
   },
   {
-    id: 1,
+    id: "1",
     display_name:"Heiligenstedtenerkamp, Amt Itzehoe-Land, Kreis Steinburg, Szlezwik-Holsztyn, Niemcy",
     name:"Heiligenstedtenerkamp",
     country:"Niemcy",
@@ -24,7 +24,7 @@ export const exampleList: TFavPlace[] = [
     lat: 53.8995053,
   },
   {
-    id:2,
+    id:"2",
     display_name:"Keuruu, Keuruun seutukunta, Finlandia Środkowa, Manner-Suomi, Finlandia",
     name:"Keuruu",
     country:"Finlandia",

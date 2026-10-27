@@ -22,7 +22,7 @@ const AboutScreen = () => {
     <ScrollView contentContainerStyle={styles.container}>
       
       <Text style={styles.heading}>O aplikacji</Text>
-      <Text style={styles.warning}>{"\n"}{"\n"}Niestety, 26 października 2026 ICM wyłączyło stary serwis old.meteo.pl{"\n"}
+      <Text style={styles.warning}>{"\n"}{"\n"}Niestety, 26 października 2026 ICM zdecydowało się wyłączyć stary serwis old.meteo.pl{"\n"}
         <Text style={styles.link} onPress={()=>{Linking.openURL('https://app.meteo.pl/blog/6197')}}>
           https://app.meteo.pl/blog/6197
         </Text>

@@ -72,7 +72,7 @@ export interface TWeatherSeries {
 
 const apitoken = 'be6ec838-3819-471a-8b1b-09278a06efdb';
 
-export async function getDataModel120(date:number, lat:number, lon:number):Promise<T120Json|null>{
+export async function getDataModel120(date:number, lat:number, lon:number, model:string="120"):Promise<T120Json|null>{
     try {
     const response = await fetch(`https://energetic-mountain-66e7.codehooks.io/`, { 
       method: 'POST', 
@@ -82,7 +82,8 @@ export async function getDataModel120(date:number, lat:number, lon:number):Promi
         point:{
             lat,
             lon
-        }
+        },
+        model
       })
     });
     if (!response.ok) {

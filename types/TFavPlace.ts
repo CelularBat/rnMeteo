@@ -1,4 +1,5 @@
 export interface TFavPlace{
+ 
   lon: number;
   lat: number;
   location: string;
@@ -8,8 +9,8 @@ export interface TFavPlace{
   display_name: string;
   name: string;
   country: string;
-  state: string;
 
+  state?: string;
   city?: string;
   municipality?: string;
   county?: string;
