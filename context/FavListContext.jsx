@@ -5,40 +5,9 @@
 import React from "react";
 import {saveToCache,getFromCache} from "@/functions/favListLocalStorageHandler";
 import { nanoid } from "nanoid/non-secure";
+import { exampleList } from "./exampleFavList";
 
-const exampleList = [
-    {   id: 1,
-        location: "Jamniki, gmina Urszulin",
-        region: "województwo lubelskie",
-        XYstr: "&row=423&col=283",
-        lon: 23.1033535,
-        lat: 51.4556024, 
-    },
-    {
-        id: 2,
-        location: "Heiligenstedtenerkamp, Amt Itzehoe-Land",
-        region: "Szlezwik-Holsztyn, Niemcy",
-        XYstr: "&row=346&col=59" ,
-        lon: 9.4663342,
-        lat: 53.8995053, 
-    },
-    {
-        id: 3,
-        location: "Keuruu, Keuruun seutukunta",
-        region: "Manner-Suomi, Finlandia",
-        XYstr: "&row=290&col=122",
-        lon: 24.7083599,
-        lat: 62.2579819,  
-    },
-    {
-        id: 4,
-        location: "Złe Mięso, gmina Czersk",
-        region: "województwo pomorskie",
-        XYstr: "&row=199&col=360",
-        lon: 18.1066872,
-        lat: 53.8278296,  
-    }
-]
+
 
 const FavListContext = React.createContext(null);
 
