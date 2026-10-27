@@ -20,7 +20,16 @@ const AboutScreen = () => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
+      
       <Text style={styles.heading}>O aplikacji</Text>
+      <Text style={styles.warning}>{"\n"}{"\n"}Niestety, 26 października 2026 ICM wyłączyło stary serwis old.meteo.pl{"\n"}
+        <Text style={styles.link} onPress={()=>{Linking.openURL('https://app.meteo.pl/blog/6197')}}>
+          https://app.meteo.pl/blog/6197
+        </Text>
+      {"\n"}a wraz z nim dane pogodowe i stare meteogramy. Przyszłość projektu rnMeteo pozostaje nieznana.
+      {"\n"}{"\n"}
+      </Text>
+ 
       <Text style={styles.paragraph}>
         Nieoficjalny klient dla starszej wersji modelu pogodowego,
         <Text style={styles.link} onPress={openLinkICM}>
@@ -81,6 +90,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 22,
     color: '#333',
+  },
+  warning: {
+    fontSize: 18,
+    lineHeight: 22,
+    color: 'red',
   },
   link: {
     fontSize: 16,

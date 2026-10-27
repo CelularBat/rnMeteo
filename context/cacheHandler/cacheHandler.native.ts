@@ -1,6 +1,6 @@
 import { File, Directory, Paths } from 'expo-file-system';
 
-const ensureCacheDir = (dir) => {
+const ensureCacheDir = (dir:Directory) => {
   if (!dir.exists) {
     dir.create({
       idempotent: true,
@@ -12,12 +12,14 @@ const ensureCacheDir = (dir) => {
 
 export default class CacheHandler {
 
-  constructor(prefix,useLocalStorage=false){ 
+  protected CACHE_DIR: Directory;
+
+  constructor(prefix:string,useLocalStorage=false){ 
     this.CACHE_DIR = new Directory(Paths.cache, prefix);
     ensureCacheDir(this.CACHE_DIR);
   }
 
-  async get(key){
+  async get<T = any>(key: string): Promise<T | null>{
     const safeKey = encodeURIComponent(key);
     const file = new File(this.CACHE_DIR, `${safeKey}.json`);
 
@@ -34,7 +36,7 @@ export default class CacheHandler {
     }
   };
 
-  async set(key, value){
+  async set<T = any>(key:string, value:T ):Promise<void>{
     const safeKey = encodeURIComponent(key);
     const file = new File(this.CACHE_DIR, `${safeKey}.json`);
     const content = JSON.stringify(value);
@@ -48,7 +50,7 @@ export default class CacheHandler {
     file.write(content);
   };
 
-  async remove(key){
+  async remove(key:string) : Promise<void>{
     const safeKey = encodeURIComponent(key);
     const file = new File(this.CACHE_DIR, `${safeKey}.json`);
 

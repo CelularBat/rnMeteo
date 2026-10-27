@@ -15,35 +15,29 @@ interface TCacheIndexObj  {
   cacheKey : string,
 }
 
-const TIME_RETENTION = 1000 *60 * 60 * 24 ; // 48 hours
+const TIME_RETENTION = 1000 *60 * 60 * 24 ; // 24 hours
 const api120Cache = new CacheHandler("api_120_cache:");
 
 export const useStoreAPI120 = create(
   persist(
     (set, get) => ({
-      cacheIndex: {},
+      cacheIndex: {} as Record<string, TCacheIndexObj>,
 
       getData: async (lat:number, lon:number) => {
         
-        if (!lat || !lon){
-          console.warn("useStoreAPI120: getData(): Empty values passed. lat: "+lat+" lon: "+lon);
-          return null;
-        }
+       
 
         // If somehow parameters are wrapped in string, convert them
         if (typeof lat === 'string'){
           lat = Number(lat);
-          if (!Number.isFinite(lat)){
-            console.warn("useStoreAPI120: getData(): lat: "+lat+ " is inValid number");
-            return null;
-          }
         }
         if (typeof lon === 'string'){
           lon = Number(lon);
-          if (!Number.isFinite(lon)){
-            console.warn("useStoreAPI120: getData(): lon: "+lon+ " is inValid number");
-            return null;
-          }
+        }
+
+        if (!Number.isFinite(lat) || !Number.isFinite(lon)){
+          console.warn("useStoreAPI120: getData(): Empty values passed. lat: "+lat+" lon: "+lon);
+          return null;
         }
 
         /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
@@ -62,7 +56,7 @@ export const useStoreAPI120 = create(
             now - fstartTime < TIME_RETENTION; 
          
           if (isValid) {
-            const cachedData : TCacheIndexObj = await api120Cache.get(entry.cacheKey);
+            const cachedData : T120Json | null = await api120Cache.get(entry.cacheKey);
 
             if (cachedData) {
               console.debug("Retrieved data from JSONcache: " ,locationIdxKey);
@@ -73,6 +67,11 @@ export const useStoreAPI120 = create(
           else{
               console.debug("Found JSONcache, which are too old: ",fstartTime ,locationIdxKey);
               api120Cache.remove(entry.cacheKey);
+              set((state:any) => {
+                const cacheIndex = { ...state.cacheIndex };
+                delete cacheIndex[locationIdxKey];
+                return { cacheIndex };
+              });
           }
 
 
